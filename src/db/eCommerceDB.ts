@@ -1,31 +1,32 @@
-import { JSONFile } from 'lowdb/lib';
-import { category } from './types/dbTypes'
+import { Config } from 'node-json-db/dist/lib/JsonDBConfig';
+import { JsonDB } from 'node-json-db';
+import { category } from './types/dbTypes';
 import { eCommerceConstant } from './dbContants';
-import { fileURLToPath } from 'url'
 import { join } from 'path';
-
-// import { join } from 'node:path';
-
 class eCommerceDataBase {
-    db: any;
+    db;
 
     constructor() {
-        const file = join(__dirname, 'db.json');
-        // const adapter = new JSONFile(file);
-        // this.db = new Low(adapter);
+        const fileLocation = join(__dirname, 'eCommerce.json');
+        this.db = new JsonDB(new Config(fileLocation, true, false, '/'));
+        this.db.load();
     }
 
-    async readECommerceDB() {
-        await this.db.read();
-        const { eCommerce } = this.db.data;
-        return eCommerce;
+    get Categories(): category[] {
+        const result = this.db.getData("/categories")
+        return result;
     }
 
-    async writeCategoryToDB(category:category) {
-        await this.db.read();
-        const { eCommerce } = this.db.data;
-        eCommerce.push(category);
-        await this.db.write();
+    readECommerceDB(id: string) {
+        // return this.db.find("/category[]")
+    }
+
+    writeCategoryToDB(category: category) {
+        console.log(category)
+        // if(this.Categories.some(c => c.name === category.name || c.id === category.id)) { 
+        //     throw new Error("Category already exists");
+        // }
+        this.db.push("/categories[]", category)
     }
 }
 

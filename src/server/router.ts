@@ -1,7 +1,12 @@
+import { category } from '../db/types/dbTypes';
 import eCommerceDataBase from '../db/eCommerceDB';
 import express from 'express'
 import { nanoid } from 'nanoid';
+import winston from 'winston';
+
 const router = express.Router();
+const db = new eCommerceDataBase();
+
 /**
  * @openapi
  * /api/categories:
@@ -12,7 +17,8 @@ const router = express.Router();
  *         description: Returns a mysterious string.
  */
 router.get("/categories", (req, res) => {
-    res.send("test");
+    const categories = db.Categories;
+    res.send(categories);
 })
 
 /**
@@ -28,7 +34,7 @@ router.get("/categories", (req, res) => {
  */
 
 router.get("/category/:id", (req, res) => {
-    res.send("success");
+    db.readECommerceDB
 })
 
 /**
@@ -38,9 +44,9 @@ router.get("/category/:id", (req, res) => {
  *     description: Create a new category
  *     consumes:
  *      - application/json
- *     parameters:
- *      - in : body
- *        name : category
+ *     requestBody:
+ *      content:
+ *       application/json:
  *        schema:
  *          type : object
  *          required: 
@@ -52,12 +58,17 @@ router.get("/category/:id", (req, res) => {
  *       200:
  *         description: Returns the added category.
  */
-router.post("/category", async (req, res) => {
-    const db = new eCommerceDataBase();
-    const { name } = req.body;
-    const id = nanoid();
-    await db.writeCategoryToDB({ id, name });
-    res.send({ id, name });
+router.post("/category", (req, res) => {
+    try {
+        const { name } = req.body;
+        const id = nanoid();
+        const category: category = { id , name } 
+        db.writeCategoryToDB(category);
+        res.send(category);
+    } catch (error) {
+        winston.error(error);
+        res.status(500).send(error);
+    }
 })
 
 
