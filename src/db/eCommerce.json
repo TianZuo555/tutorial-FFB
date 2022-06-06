@@ -1,0 +1,29 @@
+{
+    "categories": [
+        {
+            "id": 1,
+            "title": "hats",
+            "imageUrl": "http://localhost:8000/hats.png"
+        },
+        {
+            "id": 2,
+            "title": "jackets",
+            "imageUrl": "http://localhost:8000/jackets.png"
+        },
+        {
+            "id": 3,
+            "title": "sneakers",
+            "imageUrl": "http://localhost:8000/sneakers.png"
+        },
+        {
+            "id": 4,
+            "title": "womens",
+            "imageUrl": "http://localhost:8000/womens.png"
+        },
+        {
+            "id": 5,
+            "title": "mens",
+            "imageUrl": "http://localhost:8000/men.png"
+        }
+    ]
+}
