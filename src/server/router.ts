@@ -1,6 +1,6 @@
 import { category } from '../db/types/dbTypes';
 import eCommerceDataBase from '../db/eCommerceDB';
-import express from 'express'
+import express from 'express';
 import { nanoid } from 'nanoid';
 import winston from 'winston';
 
@@ -14,12 +14,12 @@ const db = new eCommerceDataBase();
  *     description: get all categories
  *     responses:
  *       200:
- *         description: Returns a mysterious string.
+ *         description: Returns a list of categories.
  */
-router.get("/categories", (req, res) => {
+router.get('/categories', (req, res) => {
     const categories = db.Categories;
     res.send(categories);
-})
+});
 
 /**
  * @openapi
@@ -27,15 +27,18 @@ router.get("/categories", (req, res) => {
  *   get:
  *     description: get category by id
  *     parameters:
- *      - in: categoryId
+ *      - in: path
+ *        name: categoryId
  *     responses:
  *       200:
  *         description: return category.
  */
 
-router.get("/category/:id", (req, res) => {
-    db.readECommerceDB
-})
+router.get('/category/:id', (req, res) => {
+    const categoryId = req.params.id;
+    const result = db.readECommerceDB(Number.parseInt(categoryId));
+    res.send(result);
+});
 
 /**
  * @openapi
@@ -49,27 +52,26 @@ router.get("/category/:id", (req, res) => {
  *       application/json:
  *        schema:
  *          type : object
- *          required: 
- *            - name 
+ *          required:
+ *            - title
  *          properties:
- *            name : 
+ *            title :
  *              type : string
  *     responses:
  *       200:
  *         description: Returns the added category.
  */
-router.post("/category", (req, res) => {
+router.post('/category', (req, res) => {
     try {
-        const { title, imageUrl} = req.body;
-        const id = nanoid();
-        const category: category = { id , title, imageUrl} 
+        const { title, imageUrl } = req.body;
+        const id = Math.random();
+        const category: category = { id, title, imageUrl };
         db.writeCategoryToDB(category);
         res.send(category);
     } catch (error) {
         winston.error(error);
         res.status(500).send(error);
     }
-})
-
+});
 
 export default router;

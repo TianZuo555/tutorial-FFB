@@ -17,8 +17,9 @@ class eCommerceDataBase {
         return result;
     }
 
-    readECommerceDB(id: string) {
-        // return this.db.find("/category[]")
+    readECommerceDB(id: number) {
+        const result: category[] = this.db.getData("/categories");
+        return result.find(c => c.id === id);
     }
 
     writeCategoryToDB(category: category) {
