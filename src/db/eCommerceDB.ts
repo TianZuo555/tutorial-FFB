@@ -22,10 +22,9 @@ class eCommerceDataBase {
     }
 
     writeCategoryToDB(category: category) {
-        console.log(category)
-        // if(this.Categories.some(c => c.name === category.name || c.id === category.id)) { 
-        //     throw new Error("Category already exists");
-        // }
+        if(this.Categories.some(c => c.title === category.title || c.id === category.id)) { 
+            throw new Error("Category already exists");
+        }
         this.db.push("/categories[]", category)
     }
 }

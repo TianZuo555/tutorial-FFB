@@ -1,3 +1,4 @@
 node_modules
 dist
 eCommerce.json
+.DS_Store

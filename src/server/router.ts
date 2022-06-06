@@ -60,9 +60,9 @@ router.get("/category/:id", (req, res) => {
  */
 router.post("/category", (req, res) => {
     try {
-        const { name } = req.body;
+        const { title, imageUrl} = req.body;
         const id = nanoid();
-        const category: category = { id , name } 
+        const category: category = { id , title, imageUrl} 
         db.writeCategoryToDB(category);
         res.send(category);
     } catch (error) {

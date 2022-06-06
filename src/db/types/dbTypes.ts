@@ -6,9 +6,10 @@ export type eCommerceDB = {
 
 export type Column = {
     name: string;
-}
+};
 
 export type category = {
     id: string;
-    name: string;
-}
+    title: string;
+    imageUrl: String;
+};
