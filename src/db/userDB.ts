@@ -16,6 +16,7 @@ export default class UserDB {
     }
 
     createUser(user: user) {
+        //TODO add more validation 
         if(this.readUser(user.username, user.password)) { 
             throw new Error("User already exists");
         }

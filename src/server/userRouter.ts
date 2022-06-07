@@ -1,8 +1,7 @@
-import { getToken, isValidToken } from '../db/utils/tokenUtils';
+import { decodeToken, getToken, isValidToken } from '../db/utils/tokenUtils';
 
 import UserDB from '../db/userDB';
 import crypto from 'crypto';
-import { decode } from 'jsonwebtoken';
 import express from 'express';
 
 const userRouter = express.Router();
@@ -13,7 +12,7 @@ userRouter.post('/login', (req, res) => {
     const user = db.readUser(username, password);
 
     if (user) {
-        const token = getToken(username);
+        const token = getToken(username, user.email);
 
         return res.json({
             username: user.username,
@@ -26,26 +25,29 @@ userRouter.post('/login', (req, res) => {
 
 userRouter.post('/signup', (req, res) => {
     const { username, password, email, name } = req.body;
-
+    console.log(password);
     db.createUser({
         id: db.getNextId(),
         username,
-        password: crypto.createHash('sha256').update(password).digest('hex'),
+        password, // crypto.createHash('sha256').update(password).digest('hex'),
         email,
         name,
         type: 'user',
     });
 
-    res.send('User created');
+
+    res.send({
+        message: 'User created successfully',
+    });
 });
 
 userRouter.post('/verify', (req, res) => {
     const { token } = req.body;
 
     if (isValidToken(token)) {
-        const { username } = decode(token) as { username: string };
-        
-        return res.send('Token verified, username is ' + username);
+        const { username, email } = decodeToken(token);
+
+        return res.send(`${username} is logged in, email is ${email}`);
     } else {
         return res.status(401).send('Invalid token');
     }
