@@ -24,3 +24,8 @@ export type user = {
     email: string;
     type: string;
 }
+
+export type dbMessage = {
+    code: string;
+    message: string;
+}

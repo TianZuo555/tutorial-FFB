@@ -3,6 +3,7 @@ import { decodeToken, getToken, isValidToken } from '../db/utils/tokenUtils';
 import UserDB from '../db/userDB';
 import crypto from 'crypto';
 import express from 'express';
+import { userMessages } from './../db/dbContants';
 
 const userRouter = express.Router();
 const db = new UserDB();
@@ -25,20 +26,31 @@ userRouter.post('/login', (req, res) => {
 
 userRouter.post('/signup', (req, res) => {
     const { username, password, email, name } = req.body;
-    console.log(password);
-    db.createUser({
-        id: db.getNextId(),
-        username,
-        password, // crypto.createHash('sha256').update(password).digest('hex'),
-        email,
-        name,
-        type: 'user',
-    });
 
+    try {
+        // TODO encrypted password
+        const message = db.createUser({
+            id: db.getNextId(),
+            username,
+            password, // crypto.createHash('sha256').update(password).digest('hex'),
+            email,
+            name,
+            type: 'user',
+        });
 
-    res.send({
-        message: 'User created successfully',
-    });
+        if (message.code !== userMessages.createdSuccessfully.code) {
+            res.status(400).send(message.message);
+        }
+
+        const token = getToken(username, email);
+
+        res.json({
+            message: userMessages.createdSuccessfully.message,
+            token,
+        });
+    } catch (error) {
+        res.status(500).send(error);
+    }
 });
 
 userRouter.post('/verify', (req, res) => {
