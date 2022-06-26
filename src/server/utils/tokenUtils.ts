@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
-import { user } from '../types/dbTypes';
+import { user } from '../../db/types/dbTypes';
 
 const tokenSecret = process.env.jwtSecret || 'secret';
 
 export function getToken(username: string, email: string): string {
-    return jwt.sign({ username, email }, tokenSecret, { expiresIn: '1h' });
+    return jwt.sign({ username, email }, tokenSecret, { expiresIn: '2h' });
 }
 
 export function isValidToken(token: string): boolean {

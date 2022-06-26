@@ -1,6 +1,8 @@
-import { decodeToken, getToken, isValidToken } from '../db/utils/tokenUtils';
+import { decodeToken, getToken, isValidToken } from './utils/tokenUtils';
 
 import UserDB from '../db/userDB';
+import { authorizer } from './auth/authorizer';
+import basicAuth from 'express-basic-auth';
 import crypto from 'crypto';
 import express from 'express';
 import { userMessages } from './../db/dbContants';
@@ -17,6 +19,8 @@ userRouter.post('/login', (req, res) => {
 
         return res.json({
             username: user.username,
+            email: user.email,
+            name: user.name,
             token,
         });
     } else {
@@ -52,6 +56,8 @@ userRouter.post('/signup', (req, res) => {
         res.status(500).send(error);
     }
 });
+
+userRouter.use('/verify', basicAuth({ authorizer: authorizer }));
 
 userRouter.post('/verify', (req, res) => {
     const { token } = req.body;
