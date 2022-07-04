@@ -74,4 +74,14 @@ router.post('/category', (req, res) => {
     }
 });
 
+router.get('/products',(req, res)=>{
+  try {
+    const products = db.readProducts();
+    res.send(products);
+  } catch (error) {
+    winston.error(error);
+    res.status(500).send(error);
+  }
+})
+
 export default router;
