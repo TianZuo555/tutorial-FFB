@@ -1,7 +1,6 @@
 import { category } from '../db/types/dbTypes';
 import eCommerceDataBase from '../db/eCommerceDB';
 import express from 'express';
-import { nanoid } from 'nanoid';
 import winston from 'winston';
 
 const router = express.Router();
@@ -74,9 +73,93 @@ router.post('/category', (req, res) => {
     }
 });
 
+/**
+ * @openapi
+ * /api/products:
+ *   post:
+ *     description: get all products 
+ *     consumes:
+ *      - application/json
+ *     requestBody:
+ *      content:
+ *       application/json:
+ *     responses:
+ *       200:
+ *         description: Returns the products by type.
+ */
 router.get('/products',(req, res)=>{
   try {
     const products = db.readProducts();
+    console.log(products)
+    res.send(products);
+  } catch (error) {
+    winston.error(error);
+    res.status(500).send(error);
+  }
+})
+
+/**
+ * @openapi
+ * /api/products/{type}:
+ *   post:
+ *     description: get products by its type
+ *     consumes:
+ *      - application/json
+ *     requestBody:
+ *      content:
+ *       application/json:
+ *        schema:
+ *          type : object
+ *          required:
+ *            - type
+ *          properties:
+ *            type:
+ *              type : string
+ *       application/json:
+ *     responses:
+ *       200:
+ *         description: Returns the products by type.
+ */
+router.get('/products/:type',(req, res)=>{
+  try {
+    const { type }  = req.params;
+    console.log('test')
+    const products = db.getProductsByType(type);
+    res.send(products);
+  } catch (error) {
+    winston.error(error);
+    res.status(500).send(error);
+  }
+})
+
+/**
+ * @openapi
+ * /api/products/{id}:
+ *   post:
+ *     description: get products by id
+ *     consumes:
+ *      - application/json
+ *     requestBody:
+ *      content:
+ *       application/json:
+ *        schema:
+ *          type : object
+ *          required:
+ *            - type
+ *          properties:
+ *            type:
+ *              type : string
+ *       application/json:
+ *     responses:
+ *       200:
+ *         description: Returns the products by type.
+ */
+router.get('/products/:id',(req, res)=>{
+  try {
+    console.log('id')
+    const { id }  = req.params;
+    const pid = Number.parseInt(id);
+    const products = db.getProductsById(pid);
     res.send(products);
   } catch (error) {
     winston.error(error);

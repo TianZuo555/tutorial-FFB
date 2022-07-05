@@ -1,58 +1,72 @@
-{
-  "products":[
+{ "products":[
   {
     "id": 1,
     "name": "Brown Brim",
     "imageUrl": "http://localhost:8000/brown-brim.png",
-    "price": 25
+    "price": 25,
+    "type": "hats"
   },
   {
     "id": 2,
     "name": "Blue Beanie",
     "imageUrl": "http://localhost:8000/blue-beanie.png",
-    "price": 18
+    "price": 18, 
+    "type": "hats"
   },
   {
     "id": 3,
     "name": "Brown Cowboy",
     "imageUrl": "http://localhost:8000/brown-cowboy.png",
-    "price": 35
+    "price": 35, 
+    "type": "hats"
+
   },
   {
     "id": 4,
     "name": "Grey Brim",
     "imageUrl": "http://localhost:8000/grey-brim.png",
-    "price": 25
+    "price": 25, 
+    "type": "hats"
+
   },
   {
     "id": 5,
     "name": "Green Beanie",
     "imageUrl": "http://localhost:8000/green-beanie.png",
-    "price": 18
+    "price": 18, 
+    "type": "hats"
+
   },
   {
     "id": 6,
     "name": "Palm Tree Cap",
     "imageUrl": "http://localhost:8000/palm-tree-cap.png",
-    "price": 14
+    "price": 14, 
+    "type": "hats"
+
   },
   {
     "id": 7,
     "name": "Red Beanie",
     "imageUrl": "http://localhost:8000/red-beanie.png",
-    "price": 18
+    "price": 18, 
+    "type": "hats"
+
   },
   {
     "id": 8,
     "name": "Wolf Cap",
     "imageUrl": "http://localhost:8000/wolf-cap.png",
-    "price": 14
+    "price": 14, 
+    "type": "hats"
+
   },
   {
     "id": 9,
     "name": "Blue Snapback",
     "imageUrl": "http://localhost:8000/blue-snapback.png",
-    "price": 16
+    "price": 16, 
+    "type": "hats"
   }
   ]
 }

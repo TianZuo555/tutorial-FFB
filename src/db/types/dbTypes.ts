@@ -28,6 +28,14 @@ declare namespace dbTypes {
         code: string;
         message: string;
     };
+    
+    type product = {
+      id: number;
+      name: string;
+      type: string;
+      price: number;
+      imageUrl: string; 
+    }
 }
 
 export = dbTypes;

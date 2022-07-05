@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import path from 'path';
-import router from './router';
+import categoryRouter from './categoryRouter';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import userRouter from './userRouter';
@@ -37,7 +37,7 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-app.use('/api', router);
+app.use('/api', categoryRouter);
 
 app.use('/api/user', userRouter);
 
@@ -46,5 +46,6 @@ process.on('uncaughtException', (err) => {
 });
 
 app.listen(port, () => {
+    winston.log('Listen to port ', port);
     console.log(`Example app listening on port ${port}`);
 });
